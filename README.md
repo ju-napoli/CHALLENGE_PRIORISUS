@@ -1,6 +1,6 @@
 # PrioriSUS
 
-Projeto acadêmico desenvolvido para a Global Solution com foco na análise
+Projeto acadêmico desenvolvido para o Challenge da FIAP com foco na análise
 da infraestrutura de saúde dos municípios brasileiros.
 
 ## Objetivo
