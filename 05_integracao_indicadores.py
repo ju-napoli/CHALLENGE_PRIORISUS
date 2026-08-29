@@ -245,10 +245,31 @@ ipis["SCORE_LEITOS"] = (
 ipis.head()
 
 # %%
-# Calculamos o IPIS como a média dos scores de UBS e leitos SUS.
+# Invertemos os scores de infraestrutura para representar deficiência de infraestrutura.
+# Quanto menor a disponibilidade de UBS ou leitos, maior será o déficit e, consequentemente,
+# maior será a prioridade de investimento.
+
+ipis["DEFICIT_UBS"] = 100 - ipis["SCORE_UBS"]
+
+ipis["DEFICIT_LEITOS"] = 100 - ipis["SCORE_LEITOS"]
+
+ipis[
+    [
+        "SCORE_UBS",
+        "DEFICIT_UBS",
+        "SCORE_LEITOS",
+        "DEFICIT_LEITOS"
+    ]
+].head()
+# %%
+# Calculamos o IPIS como a média dos déficits de UBS e leitos SUS.
+#
+# Quanto maior o IPIS, maior a deficiência de infraestrutura
+# e maior a prioridade de investimento em saúde.
 
 ipis["IPIS"] = (
-    ipis["SCORE_UBS"] + ipis["SCORE_LEITOS"]
+    ipis["DEFICIT_UBS"]
+    + ipis["DEFICIT_LEITOS"]
 ) / 2
 
 ipis.head()
@@ -259,7 +280,7 @@ ipis.head()
 ipis["IPIS"].describe()
 
 # %%
-# Identificamos os municípios com maiores valores de IPIS.
+# Identificamos os municípios com maiores valores de IPIS (maior prioridade de investimento).
 
 ipis.nlargest(
     10,
@@ -278,7 +299,7 @@ ipis.nlargest(
 ]
 
 # %%
-# Identificamos os municípios com menores valores de IPIS.
+# Identificamos os municípios com menores valores de IPIS (menor prioridade de investimento).
 
 ipis.nsmallest(
     10,
@@ -320,12 +341,11 @@ ipis.nsmallest(
 
 ipis["FAIXA_IPIS"] = pd.cut(
     ipis["IPIS"],
-    bins=[0, 25, 50, 75, 100],
+    bins=[0, 30, 70, 100],
     labels=[
-        "Baixa infraestrutura",
-        "Infraestrutura moderada",
-        "Boa infraestrutura",
-        "Alta infraestrutura"
+        "Baixa prioridade",
+        "Prioridade moderada",
+        "Alta prioridade"
     ],
     include_lowest=True
 )
