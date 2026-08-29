@@ -42,7 +42,7 @@ de cálculo.
 ## Estrutura do projeto
 
 ```text
-GLOBAL_SOLUTION_PRIORISUS/
+CHALLENGE_PRIORISUS/
 │
 ├── RAW/
 ├── 01_exploracao_ibge.py
