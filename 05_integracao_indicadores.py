@@ -352,4 +352,31 @@ ipis["FAIXA_IPIS"] = pd.cut(
 
 ipis["FAIXA_IPIS"].value_counts().sort_index()
 
-# %%
+
+colunas_saida = [
+    "IBGE",
+    "UF",
+    "NOME DO MUNICÍPIO",
+    "POPULAÇÃO ESTIMADA",
+    "QTD_UBS",
+    "UBS_POR_10MIL",
+    "QTD_LEITOS_SUS",
+    "LEITOS_SUS_POR_10MIL",
+    "DEFICIT_UBS",
+    "DEFICIT_LEITOS",
+    "IPIS",
+    "FAIXA_IPIS"
+]
+
+resultado_ipis = ipis[colunas_saida].sort_values(
+    "IPIS",
+    ascending=False
+)
+
+resultado_ipis.to_csv(
+    "resultado_ipis.csv",
+    index=False,
+    encoding="utf-8-sig"
+)
+
+print(resultado_ipis.head(10))# %%
