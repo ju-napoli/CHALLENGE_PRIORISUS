@@ -2,7 +2,13 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from pathlib import Path
 
-# %%
+# Pasta para análises
+pasta_analises = Path("OUTPUT/Analises")
+pasta_analises.mkdir(
+    parents=True,
+    exist_ok=True
+)
+
 
 # Carregamos o resultado final do IPIS.
 ipis = pd.read_csv(
@@ -56,6 +62,12 @@ plt.ylabel("Município")
 plt.title("10 municípios com maior prioridade de investimento")
 
 plt.tight_layout()
+
+plt.savefig(
+    pasta_analises / "10_municipios.png",
+    dpi=300,
+    bbox_inches="tight"
+)
 plt.show()
 
 
@@ -75,6 +87,12 @@ plt.ylabel("Quantidade de municípios")
 plt.title("Distribuição do Índice de Prioridade de Investimento em Saúde")
 
 plt.tight_layout()
+
+plt.savefig(
+    pasta_analises / "distribuicao_ipis.png",
+    dpi=300,
+    bbox_inches="tight"
+)
 plt.show()
 
 
@@ -109,6 +127,12 @@ plt.title("Municípios por faixa de prioridade")
 
 plt.xticks(rotation=0)
 plt.tight_layout()
+
+plt.savefig(
+    pasta_analises / "distribuicao_faixas.png",
+    dpi=300,
+    bbox_inches="tight"
+)
 plt.show()
 
 # Calculamos o IPIS médio por estado.
@@ -142,6 +166,12 @@ plt.ylabel("Estado")
 plt.title("Estados com maior IPIS médio")
 
 plt.tight_layout()
+
+plt.savefig(
+    pasta_analises / "maior_ipis_medios.png",
+    dpi=300,
+    bbox_inches="tight"
+)
 plt.show()
 
 
@@ -160,6 +190,12 @@ plt.ylabel("IPIS")
 plt.title("Relação entre disponibilidade de UBS e IPIS")
 
 plt.tight_layout()
+
+plt.savefig(
+    pasta_analises / "relacao_ubs_ipis.png",
+    dpi=300,
+    bbox_inches="tight"
+)
 plt.show()
 
 
@@ -178,16 +214,16 @@ plt.ylabel("IPIS")
 plt.title("Relação entre disponibilidade de leitos SUS e IPIS")
 
 plt.tight_layout()
+
+plt.savefig(
+    pasta_analises / "relacao_leitos_ipis.png",
+    dpi=300,
+    bbox_inches="tight"
+)
 plt.show()
 
 
 # Armazenar os resultados da análise em uma pasta específica.
-
-pasta_analises = Path("OUTPUT/Analises")
-pasta_analises.mkdir(
-    parents=True,
-    exist_ok=True
-)
 
 top10.to_csv(
     pasta_analises / "top10_municipios_ipis.csv",
@@ -201,8 +237,3 @@ ipis_estado.to_csv(
     encoding="utf-8-sig"
 )
 
-plt.savefig(
-    pasta_analises / "nome_do_grafico.png",
-    dpi=300,
-    bbox_inches="tight"
-)
