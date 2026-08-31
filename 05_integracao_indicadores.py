@@ -362,6 +362,8 @@ colunas_saida = [
     "UBS_POR_10MIL",
     "QTD_LEITOS_SUS",
     "LEITOS_SUS_POR_10MIL",
+    "SCORE_UBS",
+    "SCORE_LEITOS",
     "DEFICIT_UBS",
     "DEFICIT_LEITOS",
     "IPIS",
@@ -371,6 +373,15 @@ colunas_saida = [
 resultado_ipis = ipis[colunas_saida].sort_values(
     "IPIS",
     ascending=False
+)
+
+# Padronizamos os nomes das colunas para integração com o Oracle.
+resultado_ipis = resultado_ipis.rename(
+    columns={
+        "IBGE": "CO_IBGE",
+        "NOME DO MUNICÍPIO": "NOME_MUNICIPIO",
+        "POPULAÇÃO ESTIMADA": "POPULACAO_ESTIMADA"
+    }
 )
 
 resultado_ipis.to_csv(
