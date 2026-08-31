@@ -1,0 +1,18 @@
+# Dependências do pipeline PrioriSUS (scripts 01 a 06).
+# Instalação: pip install -r requirements.txt
+
+# Manipulação e integração das bases (scripts 01 a 06).
+pandas>=2.2.2
+
+# Gráficos das análises do script 06.
+matplotlib>=3.8
+
+# Leitura de RAW/POP2025_20260113.xls.
+# O arquivo do IBGE está no formato .xls legado (OLE2), que o pandas só lê
+# através do xlrd. Sem este pacote, os scripts 01, 03, 04 e 05 falham
+# no pd.read_excel com ImportError.
+xlrd>=2.0.2
+
+# Engine de leitura para planilhas .xlsx, caso o IBGE publique
+# versões futuras da base de população nesse formato.
+openpyxl>=3.1.2

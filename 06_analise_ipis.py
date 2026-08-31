@@ -44,22 +44,63 @@ top10 = ipis.nlargest(
 
 top10
 
-# Gráfico dos 10 municípios com maior IPIS.
-top10_grafico = top10.sort_values(
+# Gráfico dos municípios mais populosos dentro da faixa de alta prioridade.
+#
+# O critério de seleção deste gráfico não é o nlargest("IPIS") usado acima.
+# O IPIS satura em 100 por construção (o déficit é limitado a esse teto), e
+# após a correção metodológica há 37 municípios empatados em exatamente
+# 100,00. Selecionar por IPIS produzia 10 barras de comprimento idêntico —
+# um gráfico sem poder de discriminação.
+#
+# Selecionamos, em vez disso, os 10 municípios de maior população dentro da
+# faixa "Alta prioridade" (o terço mais carente da base). Isso responde a uma
+# pergunta orçamentária mais útil: entre os municípios prioritários, onde o
+# investimento alcança mais pessoas. Nesta seleção o IPIS volta a variar
+# (amplitude de cerca de 10 pontos), então as barras discriminam de novo.
+#
+# A variável top10 acima permanece intacta: ela alimenta o
+# top10_municipios_ipis.csv exportado ao final do script.
+
+alta_prioridade = ipis[
+    ipis["FAIXA_IPIS"] == "Alta prioridade"
+]
+
+top10_populosos = alta_prioridade.nlargest(
+    10,
+    "POPULAÇÃO ESTIMADA"
+)
+
+top10_grafico = top10_populosos.sort_values(
     "IPIS",
     ascending=True
 )
 
 plt.figure(figsize=(10, 6))
 
-plt.barh(
+barras = plt.barh(
     top10_grafico["NOME DO MUNICÍPIO"],
     top10_grafico["IPIS"]
 )
 
+# Anotamos a população em cada barra, já que ela é o critério de seleção
+# mas não está representada no comprimento da barra.
+
+for barra, populacao in zip(barras, top10_grafico["POPULAÇÃO ESTIMADA"]):
+    plt.text(
+        barra.get_width() + 1,
+        barra.get_y() + barra.get_height() / 2,
+        f"{populacao:,.0f}".replace(",", ".") + " hab",
+        va="center",
+        fontsize=8
+    )
+
+# Mantemos a escala completa do índice (0 a 100) para não exagerar
+# visualmente as diferenças entre os municípios selecionados.
+
+plt.xlim(0, 115)
 plt.xlabel("IPIS")
 plt.ylabel("Município")
-plt.title("10 municípios com maior prioridade de investimento")
+plt.title("10 municípios de alta prioridade com maior população")
 
 plt.tight_layout()
 

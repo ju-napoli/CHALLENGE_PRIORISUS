@@ -200,14 +200,6 @@ municipios_sem_leitos.shape
 
 leitos_por_municipio["QTD_LEITOS"].describe()
 
-# %%
-# Identificamos os municípios com maior quantidade de leitos.
-
-leitos_por_municipio.nlargest(
-    10,
-    "QTD_LEITOS"
-)
-
 
 # %%
 # Adicionamos a população estimada à base agregada de leitos.

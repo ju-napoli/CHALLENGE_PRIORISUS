@@ -1,0 +1,6 @@
+# Artefatos técnicos gerados localmente.
+# Os dados do projeto (RAW/ e OUTPUT/) são versionados intencionalmente.
+
+__pycache__/
+*.pyc
+.venv/
